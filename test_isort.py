@@ -2197,23 +2197,25 @@ def test_alias_using_paren_issue_466():
 
 
 def test_long_alias_using_paren_issue_957():
-    test_input = ('from package import module as very_very_very_very_very_very_very_very_very_very_long_alias\n')
+    test_input = ('from package import module as very_very_very_very_long_alias\n')
     expected_output = ('from package import (\n'
-                       '    module as very_very_very_very_very_very_very_very_very_very_long_alias\n'
+                       '    module as very_very_very_very_long_alias\n'
                        ')\n')
     out = SortImports(file_contents=test_input, line_length=50, use_parentheses=True, multi_line_output=WrapModes.VERTICAL_GRID_GROUPED, check=True).output
     assert out == expected_output
 
     test_input = ('from deep.deep.deep.deep.deep.deep.deep.deep.deep.package import module as very_very_very_very_very_very_very_very_very_very_long_alias\n')
     expected_output = ('from deep.deep.deep.deep.deep.deep.deep.deep.deep.package import (\n'
-                       '    module as very_very_very_very_very_very_very_very_very_very_long_alias\n'
+                       '    module as \n'
+                       '        very_very_very_very_very_very_very_very_very_very_long_alias\n'
                        ')\n')
     out = SortImports(file_contents=test_input, line_length=50, use_parentheses=True, multi_line_output=WrapModes.VERTICAL_GRID_GROUPED, check=True).output
     assert out == expected_output
 
     test_input = ('from deep.deep.deep.deep.deep.deep.deep.deep.deep.package import very_very_very_very_very_very_very_very_very_very_long_module as very_very_very_very_very_very_very_very_very_very_long_alias\n')
     expected_output = ('from deep.deep.deep.deep.deep.deep.deep.deep.deep.package import (\n'
-                       '    very_very_very_very_very_very_very_very_very_very_long_module as very_very_very_very_very_very_very_very_very_very_long_alias\n'
+                       '    very_very_very_very_very_very_very_very_very_very_long_module as \n'
+                       '        very_very_very_very_very_very_very_very_very_very_long_alias\n'
                        ')\n')
     out = SortImports(file_contents=test_input, line_length=50, use_parentheses=True, multi_line_output=WrapModes.VERTICAL_GRID_GROUPED, check=True).output
     assert out == expected_output
